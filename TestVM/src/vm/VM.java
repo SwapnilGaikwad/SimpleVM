@@ -19,11 +19,24 @@ public class VM {
     }
 
     public void  cpu(){
-        int opcode = code[ip];  //Fetch
-        ip++;
-        switch (opcode){
-            case HALT:
-                return;
+        while(ip < code.length) {   //Execute all the lines of code
+            int opcode = code[ip];  //Fetch
+            ip++;                   //Increment instruction point to next instruction
+            switch (opcode) {
+                case ICONST:
+                    int operand = code[ip];
+                    ip++;
+                    sp++;
+                    stack[sp] = operand;
+                    break;
+                case PRINT:
+                    operand = stack[sp];
+                    sp--;
+                    System.out.println(operand);
+                    break;
+                case HALT:
+                    return;
+            }
         }
 
     }
