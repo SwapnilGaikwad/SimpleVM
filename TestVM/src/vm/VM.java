@@ -1,5 +1,7 @@
 package vm;
 
+import static vm.Bytecode.*;
+
 public class VM {
     private int [] data;
     private int [] code;
@@ -17,6 +19,12 @@ public class VM {
     }
 
     public void  cpu(){
+        int opcode = code[ip];  //Fetch
+        ip++;
+        switch (opcode){
+            case HALT:
+                return;
+        }
 
     }
 }
