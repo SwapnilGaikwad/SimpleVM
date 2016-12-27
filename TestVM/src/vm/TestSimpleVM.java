@@ -13,6 +13,7 @@ public class TestSimpleVM {
 
     public static void main(String[] args) {
         VM vm = new VM(firstProg, 0, 10);
+        vm.trace = true;
         vm.cpu();
     }
 }

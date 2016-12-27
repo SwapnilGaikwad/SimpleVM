@@ -1,6 +1,16 @@
 package vm;
 
 public class Bytecode{
+    public static class Instruction{
+        String name;
+        int nArgs = 0;
+        public Instruction(String name){ this(name, 0); }
+        public Instruction(String name, int nArgs){
+            this.name = name;
+            this.nArgs = nArgs;
+        }
+    }
+
     public static final short IADD = 1;
     public static final short ISUB = 2;
     public static final short IMUL = 3;
@@ -17,4 +27,24 @@ public class Bytecode{
     public static final short PRINT = 14;
     public static final short POP = 15;
     public static final short HALT = 16;
+
+    public static Instruction[] instructions = {
+            null,                           //Index 0 INVALID
+            new Instruction("iadd"),        //Index is opcode
+            new Instruction("isub"),
+            new Instruction("imul"),
+            new Instruction("ilt"),
+            new Instruction("ieq"),
+            new Instruction("br", 1),
+            new Instruction("brt", 1),
+            new Instruction("brf", 1),
+            new Instruction("iconst", 1),
+            new Instruction("load", 1),
+            new Instruction("gload", 1),
+            new Instruction("store", 1),
+            new Instruction("gstore", 1),
+            new Instruction("print"),
+            new Instruction("pop"),
+            new Instruction("halt")
+    };
 }
