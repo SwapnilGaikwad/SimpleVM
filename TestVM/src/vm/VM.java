@@ -37,6 +37,16 @@ public class VM {
                     sp++;
                     stack[sp] = operand;
                     break;
+                case IADD:
+                    int operandTwo = code[ip++];
+                    operand = stack[sp--];
+                    stack[++sp] = operand + operandTwo;
+                    break;
+                case ISUB:
+                    operandTwo = code[ip++];
+                    operand = stack[sp--];
+                    stack[++sp] = operand - operandTwo;
+                    break;
                 case BR:
                     int branchLocation = code[ip++];
                     ip = branchLocation;

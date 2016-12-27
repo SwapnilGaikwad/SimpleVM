@@ -10,8 +10,10 @@ public class TestSimpleVM {
             CALL, 6, 1, //Instruction at code 2, 3, 4
             HALT,       //Instruction at code 5
             LOAD, -3,   //Instruction at code 6, 7
-            PRINT,      //Instruction at code 8
-            RET         //Instruction at code 9
+            IADD, 5,    //Instruction at code 8, 9
+            ISUB, 3,    //Instruction at code 10, 11
+            PRINT,      //Instruction at code 12
+            RET         //Instruction at code 13
     };
 
     public static void main(String[] args) {
