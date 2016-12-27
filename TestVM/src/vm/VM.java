@@ -28,17 +28,30 @@ public class VM {
                 disassemble(opcode);
             }
             ip++;                   //Increment instruction point to next instruction
-            switch (opcode) {
-                case ICONST:
+            switch (opcode) {       //Decode
+                case ICONST:        //Execute
                     int operand = code[ip];
                     ip++;
                     sp++;
                     stack[sp] = operand;
                     break;
                 case PRINT:
-                    operand = stack[sp];
+                    int value = stack[sp];
                     sp--;
-                    System.out.println(operand);
+                    System.out.println(value);
+                    break;
+                case GSTORE:
+                    int storageLocation = code[ip];
+                    ip ++;
+                    value = stack[sp];
+                    sp--;
+                    globals[storageLocation] = value;
+                    break;
+                case GLOAD:
+                    storageLocation = code[ip];
+                    ip++;
+                    sp++;
+                    stack[sp]=globals[storageLocation];
                     break;
                 case HALT:
                     break loop;
@@ -46,7 +59,7 @@ public class VM {
             if(trace) System.err.println(stackString());
         }
         if(trace){
-            System.err.println();
+            System.err.println("\n");
             dumpDataMemory();
             dumpCodeMemory();
         }
