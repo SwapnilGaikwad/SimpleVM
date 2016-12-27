@@ -11,6 +11,8 @@ public class VM {
     private int sp = -1;
     private int fp;
 
+    private int TRUE = 1;
+    private int FALSE = 0;
     public static boolean trace = false;
 
     public VM( int[] code, int main, int dataSize ){
@@ -35,6 +37,26 @@ public class VM {
                     sp++;
                     stack[sp] = operand;
                     break;
+                case BR:
+                    int branchLocation = code[ip++];
+                    ip = branchLocation;
+                    break;
+                case BRT:
+                    branchLocation = code[ip++];
+                    if(stack[sp--] == TRUE) ip = branchLocation;
+                    break;
+                case BRF:
+                    branchLocation = code[ip++];
+                    if(stack[sp--] == FALSE) ip = branchLocation;
+                    break;
+                case LOAD:      //Load local arguments
+                    int offset = code[ip++];
+                    stack[++sp] = stack[fp+offset];
+                    break;
+                case STORE:
+                    offset = code[ip++];
+                    stack[fp+offset] = stack[sp--];
+                    break;
                 case PRINT:
                     int value = stack[sp];
                     sp--;
@@ -52,6 +74,24 @@ public class VM {
                     ip++;
                     sp++;
                     stack[sp]=globals[storageLocation];
+                    break;
+                case CALL:
+                    int callTargetAddress = code[ip++];     //Get call target address
+                    int nArgs = code[ip++];                 //Get number of arguments
+                    stack[++sp] = nArgs;                    //Save number of arguments
+                    stack[++sp] = fp;                       //Save frame pointer
+                    stack[++sp] = ip;                       //Save instruction pointer
+                    fp=sp;                                  //fp point to return address on stack
+                    ip=callTargetAddress;                   //ip points to target function
+                    break;
+                case RET:
+                    int returnValue = stack[sp--];      //Get function return value
+                    sp = fp;                            //Jump over locals to fp
+                    ip = stack[sp--];                   //Pop and restore ip
+                    fp = stack[sp--];                   //Pop and restore fp
+                    nArgs = stack[sp--];                //Number of args to throw away
+                    sp -= nArgs;                        //Pop arguments
+                    stack[++sp] = returnValue;          //Store return value at top of the stack
                     break;
                 case HALT:
                     break loop;

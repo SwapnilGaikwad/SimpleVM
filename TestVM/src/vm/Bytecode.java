@@ -27,6 +27,8 @@ public class Bytecode{
     public static final short PRINT = 14;
     public static final short POP = 15;
     public static final short HALT = 16;
+    public static final short CALL = 17;
+    public static final short RET = 18;
 
     public static Instruction[] instructions = {
             null,                           //Index 0 INVALID
@@ -45,6 +47,8 @@ public class Bytecode{
             new Instruction("gstore", 1),
             new Instruction("print"),
             new Instruction("pop"),
-            new Instruction("halt")
+            new Instruction("halt"),
+            new Instruction("call"),
+            new Instruction("ret")
     };
 }
