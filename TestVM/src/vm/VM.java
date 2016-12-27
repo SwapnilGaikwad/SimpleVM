@@ -38,14 +38,24 @@ public class VM {
                     stack[sp] = operand;
                     break;
                 case IADD:
-                    int operandTwo = code[ip++];
+                    int operandTwo = stack[sp--];
                     operand = stack[sp--];
                     stack[++sp] = operand + operandTwo;
                     break;
                 case ISUB:
-                    operandTwo = code[ip++];
+                    operandTwo = stack[sp--];
                     operand = stack[sp--];
                     stack[++sp] = operand - operandTwo;
+                    break;
+                case IMUL:
+                    operandTwo = stack[sp--];
+                    operand = stack[sp--];
+                    stack[++sp] = operand * operandTwo;
+                    break;
+                case ILT:
+                    operand = stack[sp--];
+                    operandTwo = stack[sp--];
+                    stack[++sp] = operand > operandTwo ? TRUE : FALSE;
                     break;
                 case BR:
                     int branchLocation = code[ip++];
